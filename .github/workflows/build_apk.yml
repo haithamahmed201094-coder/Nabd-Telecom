@@ -14,23 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Auto-Organize Files if Flattened by Mobile Upload
-        run: |
-          mkdir -p lib/screens lib/core
-          if [ -f "main.dart" ] && [ ! -f "lib/main.dart" ]; then
-            mv main.dart lib/
-          fi
-          if [ -f "dashboard_screen.dart" ]; then
-            cp dashboard_screen.dart lib/screens/
-            cp dashboard_screen.dart lib/
-          fi
-          if [ -f "api_service.dart" ]; then
-            cp api_service.dart lib/core/
-            cp api_service.dart lib/
-          fi
-          echo "Files organized for Flutter build:"
-          find lib -type f
-
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
@@ -42,6 +25,16 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: Generate Android Project and Organize Files
+        run: |
+          mkdir -p lib/screens lib/core
+          [ -f "main.dart" ] && cp -f main.dart lib/
+          [ -f "dashboard_screen.dart" ] && cp -f dashboard_screen.dart lib/screens/ && cp -f dashboard_screen.dart lib/
+          [ -f "api_service.dart" ] && cp -f api_service.dart lib/core/ && cp -f api_service.dart lib/
+          flutter create . --platforms=android --org com.nabd.telecom
+          [ -f "main.dart" ] && cp -f main.dart lib/
+          [ -f "dashboard_screen.dart" ] && cp -f dashboard_screen.dart lib/screens/
 
       - name: Get Dependencies
         run: flutter pub get
