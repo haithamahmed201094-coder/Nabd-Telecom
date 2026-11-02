@@ -1,23 +1,56 @@
-name: .github/workflows/build_apk.yml
-(
-on: [push, workflow_dispatch]
+name: Build Nabd Telecom APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
 jobs:
   build:
     name: Build Android APK
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Auto-Organize Files if Flattened by Mobile Upload
+        run: |
+          mkdir -p lib/screens lib/core
+          if [ -f "main.dart" ] && [ ! -f "lib/main.dart" ]; then
+            mv main.dart lib/
+          fi
+          if [ -f "dashboard_screen.dart" ]; then
+            cp dashboard_screen.dart lib/screens/
+            cp dashboard_screen.dart lib/
+          fi
+          if [ -f "api_service.dart" ]; then
+            cp api_service.dart lib/core/
+            cp api_service.dart lib/
+          fi
+          echo "Files organized for Flutter build:"
+          find lib -type f
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: subosito/flutter-action@v2
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
-      - run: flutter pub get
-      - run: flutter build apk --release --no-tree-shake-icons
-      - uses: actions/upload-artifact@v4
+
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Build Release APK
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: Alkahtani-Telecom-App
+          name: Nabd-Telecom-App
           path: build/app/outputs/flutter-apk/app-release.apk

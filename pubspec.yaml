@@ -1,5 +1,5 @@
-name: alkahtani_telecom
-description: "تطبيق القحطاني تيليكوم لخدمات السداد والشحن الفوري"
+name: nabd_telecom
+description: "تطبيق نبض تيليكوم لخدمات السداد والشحن الفوري"
 publish_to: 'none'
 version: 1.0.0+1
 

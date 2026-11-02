@@ -3,16 +3,16 @@ import 'screens/dashboard_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const TelecomApp());
+  runApp(const NabdTelecomApp());
 }
 
-class TelecomApp extends StatelessWidget {
-  const TelecomApp({super.key});
+class NabdTelecomApp extends StatelessWidget {
+  const NabdTelecomApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'القحطاني تيليكوم',
+      title: 'نبض تيليكوم',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Cairo',

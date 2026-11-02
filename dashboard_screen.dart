@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         backgroundColor: const Color(0xFFF4F6F9),
         appBar: AppBar(
           backgroundColor: const Color(0xFF0F3057),
-          title: const Text('القحطاني تيليكوم', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          title: const Text('نبض تيليكوم', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           actions: [
             IconButton(icon: const Icon(Icons.history, color: Colors.white), onPressed: () {}),
           ],
